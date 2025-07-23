@@ -1,0 +1,1 @@
+<span class="text-lg">{{ $count }} Tasks</span>
