@@ -1,5 +1,8 @@
-<form wire:submit="save" class="p-6">
-    <h1 class="text-2xl mb-6 border-b-2">Add New Task</h1>
+<form wire:submit="save" class="p-6 border border-zinc-200 dark:border-white/10 bg-gray-200 dark:bg-white/10 rounded-xl">
+    <h1 class="text-2xl mb-6 text-center font-bold border-b-2 border-gray-500 dark:border-white pb-2">
+        Welcome,
+        <span class="text-blue-300">{{ ucwords(auth()->user()->name) }}</span>
+    </h1>
 
     <div class="mb-4 flex gap-4">
         <div class="flex-2">
@@ -42,7 +45,7 @@
                     <option value="" selected disabled>Select a status...</option>
                     @foreach (\App\Enums\StatusType::cases() as $status)
                         <option value="{{ $status->value }}">
-                            {{ ucwords(strtolower(str_replace('_', ' ', $status->name))) }}
+                            {{ Str::of($status->value)->headline() }}
                         </option>
                     @endforeach
                 </x-select>
@@ -56,7 +59,7 @@
                     <option value="" selected disabled>Select a priority...</option>
                     @foreach (\App\Enums\PriorityType::cases() as $priority)
                         <option value="{{ $priority->value }}">
-                            {{ ucwords(strtolower(str_replace('_', ' ', $priority->name))) }}
+                            {{ Str::of($priority->value)->headline() }}
                         </option>
                     @endforeach
                 </x-select>
