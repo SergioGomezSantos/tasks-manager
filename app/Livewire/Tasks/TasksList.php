@@ -24,6 +24,10 @@ class TasksList extends Component
         $task->status = StatusType::from($status);
         $task->save();
 
+        $this->dispatch('show-flash-message', [
+            'type' => 'success',
+            'message' => 'Task Satus Updated'
+        ]);
         $this->dispatch('task-updated');
     }
 
@@ -32,7 +36,11 @@ class TasksList extends Component
         $task = Task::find($taskId);
         if ($task) {
             $task->delete();
-            request()->session()->flash('success', 'Task Deleted.');
+
+            $this->dispatch('show-flash-message', [
+                'type' => 'success',
+                'message' => 'Task Deleted'
+            ]);
             $this->dispatch('task-deleted');
         }
     }

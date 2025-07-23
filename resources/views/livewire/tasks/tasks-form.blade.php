@@ -38,7 +38,6 @@
     </div>
 
     <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-
         <div class="col-span-2 grid grid-cols-2 gap-4">
             <div>
                 <x-label for="status" class="text-xl">Status</x-label>
@@ -80,10 +79,19 @@
     </div>
 
     <div class="flex justify-end gap-4">
-
-        @if (session()->has('success'))
-            <div class="flex-1 p-2 text-center rounded-lg bg-green-300 text-green-800">
-                {{ session('success') }}
+        @if ($showFlash)
+            <div class="flex-1 p-2 text-center rounded-lg {{ $flashType === 'success' ? 'bg-green-300 text-green-800' : 'bg-red-300 text-red-800' }}"
+                 x-data="{ show: false }" 
+                 x-show="show"
+                 x-transition.opacity
+                 x-init="
+                     show = true;
+                     setTimeout(() => {
+                         show = false;
+                         setTimeout(() => $wire.hideFlash(), 300);
+                     }, 3000)
+                 ">
+                {{ $flashMessage }}
             </div>
         @endif
 

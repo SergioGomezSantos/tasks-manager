@@ -14,6 +14,10 @@ class TasksForm extends Component
 
     public TaskForm $form;
 
+    public $flashMessage = '';
+    public $flashType = '';
+    public $showFlash = false;
+
     public function mount()
     {
         $this->form->status = StatusType::PENDING->value;
@@ -23,6 +27,11 @@ class TasksForm extends Component
     public function save()
     {
         $this->form->store();
+
+        $this->showFlashMessage([
+            'type' => 'success',
+            'message' => 'Task Created'
+        ]);
         $this->dispatch('task-created');
     }
 
@@ -37,12 +46,37 @@ class TasksForm extends Component
     public function update()
     {
         $this->form->update();
+
+        $this->showFlashMessage([
+            'type' => 'success',
+            'message' => 'Task Updated'
+        ]);
         $this->dispatch('task-updated');
     }
 
     public function resetForm()
     {
+        $this->hideFlash();
         $this->form->reset();
+    }
+
+    #[On('show-flash-message')]
+    public function showFlashMessage($data)
+    {
+        $this->hideFlash();
+        $this->js('setTimeout(() => {
+            $wire.set("flashMessage", "' . $data['message'] . '");
+            $wire.set("flashType", "' . $data['type'] . '");
+            $wire.set("showFlash", true);
+        }, 50)');
+    }
+
+    #[On('hide-flash')]
+    public function hideFlash()
+    {
+        $this->showFlash = false;
+        $this->flashMessage = '';
+        $this->flashType = '';
     }
 
     public function render()

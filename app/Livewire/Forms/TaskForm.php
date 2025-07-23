@@ -59,7 +59,6 @@ class TaskForm extends Form
         );
 
         $this->reset();
-        request()->session()->flash('success', 'Task Created.');
     }
 
     public function update()
@@ -76,6 +75,5 @@ class TaskForm extends Form
         ]);
 
         $this->reset();
-        request()->session()->flash('success', 'Task Updated.');
     }
 }
