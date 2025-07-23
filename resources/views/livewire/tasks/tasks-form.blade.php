@@ -1,4 +1,5 @@
-<form wire:submit="save" class="p-6 border border-zinc-200 dark:border-white/10 bg-gray-200 dark:bg-white/10 rounded-xl">
+<form wire:submit="{{ $editMode ? 'update' : 'save' }}"
+    class="p-6 border border-zinc-200 dark:border-white/10 bg-gray-200 dark:bg-white/10 rounded-xl">
     <h1 class="text-2xl mb-6 text-center font-bold border-b-2 border-gray-500 dark:border-white pb-2">
         Welcome,
         <span class="text-blue-300">{{ ucwords(auth()->user()->name) }}</span>
@@ -86,6 +87,17 @@
             </div>
         @endif
 
-        <x-button type="submit" class="border-2">Add Task</x-button>
+        <div class="flex items-center gap-2">
+            <x-button type="button" class="border-2 cursor-pointer" wire:click="resetForm">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+            </x-button>
+            <x-button type="submit" class="border-2 cursor-pointer">
+                {{ $editMode ? 'Update Task' : 'Add Task' }}
+            </x-button>
+        </div>
     </div>
 </form>

@@ -16,11 +16,19 @@
     @foreach ($tasks as $task)
         <div class="mb-4 border-zinc-200 dark:border-white/10 bg-gray-200 dark:bg-white/10 rounded-xl">
             <div class="pt-8 pl-8 pb-4 pr-4">
-                <h3 class="text-lg font-bold">{{ $task->title }}</h3>
+
+                <div class="flex justify-between">
+                    <h3 class="text-lg font-bold">{{ $task->title }}</h3>
+                    <span
+                        class="ml-auto px-2 py-1 border-2 border-zinc-200 dark:border-white/10 bg-white dark:bg-white/10 rounded-lg">
+                        {{ $task->deadline->diffForHumans() }}
+                    </span>
+                </div>
+
                 {{-- <p class="text-sm mb-2 text-right">{{ $task->slug }}</p> --}}
                 <p class="mt-2 mb-4 font-normal text-gray-700 dark:text-gray-400">{{ $task->description }}</p>
-                <div class="flex justify-end text-sm">
 
+                <div class="flex justify-between text-sm">
                     <div class="flex gap-2">
                         @foreach (App\Enums\StatusType::cases() as $case)
                             <button type="button" wire:click="changeStatus({{ $task->id }}, '{{ $case->value }}')"
@@ -28,6 +36,7 @@
                                     'px-4 py-2 border rounded-md font-semibold text-xs uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-white/10 shadow-sm',
                                     'disabled:opacity-25 transition ease-in-out duration-150',
                                     'cursor-not-allowed' => $case->value == $task->status->value,
+                                    'cursor-pointer' => $case->value != $task->status->value,
                                     $case->borderColor(),
                                     $case->textColor(),
                                 ])
@@ -37,10 +46,14 @@
                         @endforeach
                     </div>
 
-                    <span
-                        class="ml-auto px-2 py-1 border-2 border-zinc-200 dark:border-white/10 bg-white dark:bg-white/10 rounded-lg">
-                        {{ $task->deadline->diffForHumans() }}
-                    </span>
+                    <div class="flex gap-2">
+                        <x-button class="ml-auto cursor-pointer !border-blue-500 !text-blue-500" wire:click="$dispatch('edit-task', {taskId: {{ $task->id }}})">
+                            Edit
+                        </x-button>
+                        <x-button class="ml-auto cursor-pointer !border-red-500 !text-red-500" wire:click="delete({{ $task->id }})" wire:confirm='Are you sure you want to delete this task?'>
+                            X
+                        </x-button>
+                    </div>
                 </div>
             </div>
         </div>

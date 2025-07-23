@@ -10,6 +10,9 @@ use Livewire\Form;
 
 class TaskForm extends Form
 {
+    public ?Task $task;
+    public $editMode = false;
+
     #[Validate('required|string|min:5')]
     public $title;
 
@@ -28,7 +31,19 @@ class TaskForm extends Form
     #[Validate('required|date')]
     public $deadline;
 
-    public function store() 
+    public function setTask(Task $task)
+    {
+        $this->editMode = true;
+        $this->task = $task;
+        $this->title = $task->title;
+        $this->slug = $task->slug;
+        $this->description = $task->description;
+        $this->status = $task->status;
+        $this->priority = $task->priority;
+        $this->deadline = $task->deadline->format('Y-m-d');
+    }
+
+    public function store()
     {
         $this->validate();
         Task::create(
@@ -42,8 +57,25 @@ class TaskForm extends Form
                 'deadline' => $this->deadline,
             ]
         );
-        
+
         $this->reset();
-        request()->session()->flash('success', 'Task created successfully.');
+        request()->session()->flash('success', 'Task Created.');
+    }
+
+    public function update()
+    {
+        $this->validate();
+
+        $this->task->update([
+            'title' => $this->title,
+            'slug' => $this->slug,
+            'description' => $this->description,
+            'status' => $this->status,
+            'priority' => $this->priority,
+            'deadline' => $this->deadline,
+        ]);
+
+        $this->reset();
+        request()->session()->flash('success', 'Task Updated.');
     }
 }

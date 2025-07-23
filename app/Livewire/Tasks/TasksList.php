@@ -25,9 +25,19 @@ class TasksList extends Component
         $task->save();
 
         $this->dispatch('task-updated');
-    }    
+    }
 
-    #[On('task-created')]
+    public function delete($taskId)
+    {
+        $task = Task::find($taskId);
+        if ($task) {
+            $task->delete();
+            request()->session()->flash('success', 'Task Deleted.');
+            $this->dispatch('task-deleted');
+        }
+    }
+
+    #[On(['task-created', 'task-updated', 'task-deleted'])]
     public function render()
     {
         $tasks = Task::where('user_id', Auth::id());
