@@ -1,15 +1,11 @@
 <div class="border-zinc-200 dark:border-white/10 bg-gray-200 dark:bg-white/10 rounded-xl">
     <div class="pt-8 pl-8 pb-4 pr-4">
         <div class="flex justify-between">
-            <h{{ $headingLevel ?? 3 }} class="{{ $titleClasses ?? 'text-lg font-bold' }}">
-                @if ($showLink ?? true)
-                    <a href="/{{ $task->slug }}">{{ $task->title }}</a>
-                @else
-                    {{ $task->title }}
-                @endif
-                </h{{ $headingLevel ?? 3 }}>
+            <h1 class="{{ $titleClasses ?? 'text-lg font-bold' }}">
+                <a href="/{{ $task->slug }}">{{ Str::limit($task->title, 50) }}</a>
+            </h1>
 
-                <x-tasks.task-priority-badge :task="$task" />
+            <x-tasks.task-priority-badge :task="$task" />
         </div>
 
         <p class="mb-4 font-normal text-gray-700 dark:text-gray-400 whitespace-pre-line">{{ Str::limit(explode("\n", $task->description)[0], 50) }}</p>

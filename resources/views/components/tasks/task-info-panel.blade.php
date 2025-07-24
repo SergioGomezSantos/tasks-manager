@@ -15,8 +15,8 @@
         <x-tasks.task-info-field label="Priority" :value="Str::of($task->priority->value)->headline()" />
         <x-tasks.task-info-field label="Deadline" :value="$task->deadline->format('d/m/Y') . ' - ' . $task->deadline->diffForHumans()" />
 
-        <x-tasks.task-info-field label="Created At" :value="$task->created_at->format('d/m/Y H:i')" 
+        <x-tasks.task-info-field label="Created At" :value="$task->created_at->format('H:i - d/m/Y')" 
             class="border-t-2 border-gray-500 dark:border-white mt-4 pt-4" />
-        <x-tasks.task-info-field label="Updated At" :value="$task->updated_at->format('d/m/Y H:i')" />
+        <x-tasks.task-info-field label="Updated At" :value="$task->updated_at->format('H:i - d/m/Y')" />
     </div>
 </div>

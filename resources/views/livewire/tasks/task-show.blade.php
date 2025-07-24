@@ -6,8 +6,7 @@
                     :task="$task" 
                     :show-view-button="false"
                     :show-edit-button="false"
-                    heading-level="1"
-                    title-classes="text-2xl font-bold"
+                    title-classes="text-xl font-bold"
                 />
                 
                 <x-tasks.task-info-panel :task="$task" />
