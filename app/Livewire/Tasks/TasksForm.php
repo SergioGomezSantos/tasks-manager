@@ -15,7 +15,7 @@ class TasksForm extends Component
     public TaskForm $form;
 
     public ?Task $task = null;
-    public string $formTitle = 'Create New Task';
+    public string $formTitle;
 
     public $flashMessage = '';
     public $flashType = '';
@@ -30,7 +30,7 @@ class TasksForm extends Component
             
         } else {
             $this->setDefaultValues();
-            $this->formTitle = 'Create New Task';
+            $this->formTitle = 'Task Form';
         }
     }
 

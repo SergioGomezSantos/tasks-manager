@@ -21,7 +21,7 @@ class TaskForm extends Form
 
     public $slug;
 
-    #[Validate('required|string|min:5')]
+    #[Validate('nullable|string|min:5')]
     public $description;
 
     #[Validate('required')]
