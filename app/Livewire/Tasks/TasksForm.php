@@ -21,18 +21,23 @@ class TasksForm extends Component
     public $flashType = '';
     public $showFlash = false;
 
-    public function mount(?Task $task = null, ?string $formTitle = null)
+    public function mount(?Task $task = null)
     {
         if ($task && $task->exists) {
             $this->task = $task;
             $this->form->setTask($task);
-            $this->formTitle = $formTitle ?? 'Edit Task';
+            $this->formTitle = 'Edit Task';
             
         } else {
-            $this->form->status = StatusType::PENDING->value;
-            $this->form->priority = PriorityType::LOW->value;
-            $this->formTitle = $formTitle ?? 'Create New Task';
+            $this->setDefaultValues();
+            $this->formTitle = 'Create New Task';
         }
+    }
+
+    private function setDefaultValues()
+    {
+        $this->form->status = StatusType::PENDING->value;
+        $this->form->priority = PriorityType::LOW->value;
     }
 
     public function save()
@@ -56,7 +61,8 @@ class TasksForm extends Component
 
     public function update()
     {
-        $this->form->update();
+        $shouldReset = !$this->task || !$this->task->exists;
+        $this->form->update($shouldReset);
 
         $this->showFlashMessage([
             'type' => 'success',

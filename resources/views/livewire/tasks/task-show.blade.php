@@ -4,13 +4,10 @@
             <div class="p-6 pt-0 lg:col-span-2">
                 <x-tasks.task-card 
                     :task="$task" 
-                    :truncate-description="false"
                     :show-view-button="false"
-                    :show-back-button="true"
-                    :heading-level="1"
+                    :show-edit-button="false"
+                    heading-level="1"
                     title-classes="text-2xl font-bold"
-                    :delete-method="'deleteTask'"
-                    delete-confirm-message="Are you sure you want to delete this task? This action cannot be undone."
                 />
                 
                 <x-tasks.task-info-panel :task="$task" />

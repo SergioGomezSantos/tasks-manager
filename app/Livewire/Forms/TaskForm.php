@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Forms;
 
+use App\Enums\PriorityType;
+use App\Enums\StatusType;
 use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -16,7 +18,7 @@ class TaskForm extends Form
 
     #[Validate('required|string|min:5')]
     public $title;
-    
+
     public $slug;
 
     #[Validate('required|string|min:5')]
@@ -43,7 +45,7 @@ class TaskForm extends Form
         $this->deadline = $task->deadline->format('Y-m-d');
     }
 
-    public function update()
+    public function update($resetAfterUpdate = true)
     {
         $this->validate();
 
@@ -55,6 +57,10 @@ class TaskForm extends Form
             'priority' => $this->priority,
             'deadline' => $this->deadline,
         ]);
+
+        if ($resetAfterUpdate) {
+            $this->resetToDefaults();
+        }
     }
 
     public function store()
@@ -72,13 +78,24 @@ class TaskForm extends Form
             ]
         );
 
-        $this->reset();
+        $this->resetToDefaults();
+    }
+
+    public function resetToDefaults()
+    {
+        parent::reset();
+
+        $this->editMode = false;
+        $this->task = null;
+
+        $this->status = StatusType::PENDING->value;
+        $this->priority = PriorityType::LOW->value;
     }
 
     public function reset(...$properties)
     {
         parent::reset(...$properties);
-        
+
         $this->editMode = false;
         $this->task = null;
     }

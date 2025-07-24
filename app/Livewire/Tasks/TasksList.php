@@ -20,7 +20,7 @@ class TasksList extends Component
         return view('skeleton');
     }
 
-    public function changeStatus($taskId, $status)
+    public function changeStatus($status, $taskId)
     {
         $task = Task::find($taskId);
         $task->status = StatusType::from($status);

@@ -32,7 +32,7 @@ class TaskShow extends Component
         ]);
     }
 
-    public function deleteTask()
+    public function delete()
     {
         $this->task->delete();
         

@@ -21,7 +21,10 @@
     @else
         @foreach ($tasks as $task)
             <div class="mb-4">
-                <x-tasks.task-card :task="$task" :truncate-description="true" :show-view-button="true" :task-id="$task->id" />
+                <x-tasks.task-card 
+                    :task="$task"
+                    :show-back-button="false" 
+                    :task-id="$task->id" />
             </div>
         @endforeach
 

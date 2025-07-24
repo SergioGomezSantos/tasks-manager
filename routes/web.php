@@ -11,8 +11,6 @@ Route::get('/', TasksIndex::class)
     ->middleware(['auth', 'verified'])
     ->name('tasks');
 
-Route::get('/{slug}', TaskShow::class)->name('tasks.show');
-
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 
@@ -22,3 +20,5 @@ Route::middleware(['auth'])->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+Route::get('/{slug}', TaskShow::class)->name('tasks.show');

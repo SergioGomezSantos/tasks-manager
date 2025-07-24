@@ -19,7 +19,7 @@
     @endif
     
     <x-button class="cursor-pointer !border-red-500 !text-red-500"
-              wire:click="{{ $deleteMethod ?? 'delete(' . $task->id . ')' }}"
+              wire:click="delete('{{ $task->id }}')"
               wire:confirm="{{ $deleteConfirmMessage ?? 'Are you sure you want to delete this task?' }}">
         X
     </x-button>
