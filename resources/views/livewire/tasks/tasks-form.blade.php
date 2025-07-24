@@ -1,29 +1,17 @@
 <form wire:submit="{{ $editMode ? 'update' : 'save' }}"
     class="p-6 border border-zinc-200 dark:border-white/10 bg-gray-200 dark:bg-white/10 rounded-xl">
+
     <h1 class="text-2xl mb-6 text-center font-bold border-b-2 border-gray-500 dark:border-white pb-2">
-        Welcome,
-        <span class="text-blue-300">{{ ucwords(auth()->user()->name) }}</span>
+        <span class="text-blue-300">{{ ucwords(auth()->user()->name) }}</span> - {{ $formTitle }}
     </h1>
 
-    <div class="mb-4 flex gap-4">
-        <div class="flex-2">
-            <x-label for="title" class="mb-1 text-xl">Title</x-label>
-            <x-input type="text" id="title" wire:model="form.title" class="w-full mt-1 rounded" />
-            <div class="mt-1">
-                @error('form.title')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
-            </div>
-        </div>
-
-        <div class="flex-1">
-            <x-label for="slug" class="mb-1 text-xl">Slug</x-label>
-            <x-input type="text" id="slug" wire:model="form.slug" class="w-full mt-1 rounded" />
-            <div class="mt-1">
-                @error('form.slug')
-                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                @enderror
-            </div>
+    <div class="mb-4">
+        <x-label for="title" class="mb-1 text-xl">Title</x-label>
+        <x-input type="text" id="title" wire:model="form.title" class="w-full mt-1 rounded" />
+        <div class="mt-1">
+            @error('form.title')
+                <span class="text-red-500 text-sm">{{ $message }}</span>
+            @enderror
         </div>
     </div>
 
@@ -38,6 +26,7 @@
     </div>
 
     <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+
         <div class="col-span-2 grid grid-cols-2 gap-4">
             <div>
                 <x-label for="status" class="text-xl">Status</x-label>
@@ -79,18 +68,16 @@
     </div>
 
     <div class="flex justify-end gap-4">
+
+        @if (session()->has('success'))
+            <div class="flex-1 p-2 text-center rounded-lg bg-green-300 text-green-800">
+                {{ session('success') }}
+            </div>
+        @endif
+
         @if ($showFlash)
-            <div class="flex-1 p-2 text-center rounded-lg {{ $flashType === 'success' ? 'bg-green-300 text-green-800' : 'bg-red-300 text-red-800' }}"
-                 x-data="{ show: false }" 
-                 x-show="show"
-                 x-transition.opacity
-                 x-init="
-                     show = true;
-                     setTimeout(() => {
-                         show = false;
-                         setTimeout(() => $wire.hideFlash(), 300);
-                     }, 3000)
-                 ">
+            <div class="flex-1 p-2 text-center rounded-lg bg-green-300 text-green-800" x-data="{ show: true }"
+                x-show="show" x-transition x-init="setTimeout(() => show = false, 3000)">
                 {{ $flashMessage }}
             </div>
         @endif
@@ -109,3 +96,13 @@
         </div>
     </div>
 </form>
+
+<script>
+    document.addEventListener('livewire:initialized', () => {
+        Livewire.on('hide-flash-after-delay', () => {
+            setTimeout(() => {
+                Livewire.dispatch('hide-flash');
+            }, 3000);
+        });
+    });
+</script>

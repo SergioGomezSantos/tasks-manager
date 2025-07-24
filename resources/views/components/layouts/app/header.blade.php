@@ -21,10 +21,6 @@
             </flux:navbar.item>
         </flux:navbar>
 
-        {{-- <flux:navbar class="-mb-px max-lg:hidden">
-            <livewire:tasks.tasks-search />
-        </flux:navbar> --}}
-
         <flux:spacer />
 
         <!-- Desktop User Menu -->

@@ -4,6 +4,7 @@ namespace App\Livewire\Forms;
 
 use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
@@ -15,8 +16,7 @@ class TaskForm extends Form
 
     #[Validate('required|string|min:5')]
     public $title;
-
-    #[Validate('required|string|min:5')]
+    
     public $slug;
 
     #[Validate('required|string|min:5')]
@@ -43,24 +43,6 @@ class TaskForm extends Form
         $this->deadline = $task->deadline->format('Y-m-d');
     }
 
-    public function store()
-    {
-        $this->validate();
-        Task::create(
-            [
-                'user_id' => Auth::id(),
-                'title' => $this->title,
-                'slug' => $this->slug,
-                'description' => $this->description,
-                'status' => $this->status,
-                'priority' => $this->priority,
-                'deadline' => $this->deadline,
-            ]
-        );
-
-        $this->reset();
-    }
-
     public function update()
     {
         $this->validate();
@@ -73,7 +55,31 @@ class TaskForm extends Form
             'priority' => $this->priority,
             'deadline' => $this->deadline,
         ]);
+    }
+
+    public function store()
+    {
+        $this->validate();
+        Task::create(
+            [
+                'user_id' => Auth::id(),
+                'title' => $this->title,
+                'slug' => Str::slug($this->title),
+                'description' => $this->description,
+                'status' => $this->status,
+                'priority' => $this->priority,
+                'deadline' => $this->deadline,
+            ]
+        );
 
         $this->reset();
+    }
+
+    public function reset(...$properties)
+    {
+        parent::reset(...$properties);
+        
+        $this->editMode = false;
+        $this->task = null;
     }
 }
