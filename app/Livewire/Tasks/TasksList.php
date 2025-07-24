@@ -13,6 +13,8 @@ class TasksList extends Component
 {
     use WithPagination;
 
+    public $selectedStatus = null;
+
     public function placeholder()
     {
         return view('skeleton');
@@ -45,12 +47,30 @@ class TasksList extends Component
         }
     }
 
+    #[On('filter-by-status')]
+    public function filterByStatus($status)
+    {
+        $this->selectedStatus = $status;
+        $this->resetPage();
+    }
+
+    #[On('clear-status-filter')]
+    public function clearStatusFilter()
+    {
+        $this->selectedStatus = null;
+        $this->resetPage();
+    }
+
     #[On(['task-created', 'task-updated', 'task-deleted'])]
     public function render()
     {
-        $tasks = Task::where('user_id', Auth::id());
+        $tasksQuery = Task::where('user_id', Auth::id())->orderBy('created_at', 'desc');
 
-        $statusCounts  = Task::where('user_id', Auth::id())
+        if ($this->selectedStatus) {
+            $tasksQuery->where('status', $this->selectedStatus);
+        }
+
+        $statusCounts = Task::where('user_id', Auth::id())
             ->selectRaw('status, count(*) as count')
             ->groupBy('status')
             ->orderBy('status', 'desc')
@@ -62,9 +82,11 @@ class TasksList extends Component
             $statusValue = $status->value;
             $tasksByStatus[$statusValue] = $statusCounts[$statusValue] ?? 0;
         }
+
         return view('livewire.tasks.tasks-list', [
-            'tasks' => $tasks->paginate(4),
-            'tasksByStatus' => $tasksByStatus
+            'tasks' => $tasksQuery->paginate(4),
+            'tasksByStatus' => $tasksByStatus,
+            'selectedStatus' => $this->selectedStatus
         ]);
     }
 }

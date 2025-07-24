@@ -16,7 +16,10 @@
         <div class="absolute top-full left-0 mt-1 w-full bg-gray-200 dark:bg-white/20 rounded-md shadow-lg z-10">
             @foreach ($results as $result)
                 <div class="px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-white/20 cursor-pointer">
-                    {{ $result->title }}
+                    <a href="/{{ $result->slug }}" class="flex justify-between items-center">
+                        <span>{{ $result->title }}</span>
+                        <span>{{ $result->deadline->diffForHumans() }}</span>
+                    </a>
                 </div>
             @endforeach
         </div>

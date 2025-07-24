@@ -3,18 +3,21 @@
     @foreach ($tasksByStatus as $statusValue => $count)
         @php
             $statusEnum = App\Enums\StatusType::from($statusValue);
+            $isSelected = $selectedStatus === $statusEnum->value;
         @endphp
 
-        <div @class([
-                'flex items-center gap-2 py-2 px-4 border-2 rounded-xl',
-                $statusEnum->backgroundColor(),
+        <button 
+            wire:click="filterByStatus('{{ $statusEnum->value }}')"
+        @class([
+                'flex items-center gap-2 py-2 px-4 border-2 rounded-xl cursor-pointer',
                 $statusEnum->borderColor(),
-                $statusEnum->textColor(),
+                $isSelected ? $statusEnum->backgroundColorSelected() : $statusEnum->backgroundColor(),
+                $isSelected ? $statusEnum->textColorSelected() : $statusEnum->textColor(),
             ])>
             <span class="text-sm text-black">
                 {{ Str::of($statusValue)->headline() }}
             </span>
             <span class="text-base font-bold">{{ $count }}</span>
-        </div>
+        </button>
     @endforeach
 </div>
