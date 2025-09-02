@@ -1,39 +1,39 @@
 # Tasks Web
 
-Esta es una web para gestionar Tasks usando Livewire.  
-Las vistas están divididas en componentes reutilizables y las páginas funcionan con Livewire para no necesitar recargar.
+This is a web app for managing tasks using Livewire.  
+The views are divided into reusable components, and the pages work with Livewire to avoid reloading.
 
-Puedes registrarte / iniciar sesión para ver tus tareas.  
-Un usuario registrado puede crear, editar, eliminar, etc...
+You can register / log in to view your tasks.  
+A registered user can create, edit, delete, etc...
 
 ## Main Page
 
-La página principal tiene 2 columnas:
-- Listado de Tareas del Usuario junto a los filtros
-- Formulario para crear y editar
+The main page has 2 columns:
+- List of the User's Tasks with filters
+- Form to create and edit
 
-En el listado se ven los datos principales. Los títulos son enlaces utilizando Slug y los botones de Status son interactuables para cambiar el Status de cada tarea de manera rápida.
+In the list, the main data is shown. The titles are links using Slug, and the Status buttons are interactive to quickly change the Status of each task.
 
 ![tasks](resources/img/tasks.PNG)  
 
-El botón de View muestra la Task en tamaño grande con todos los datos sin recortar en tamaño. El botón de Delete pide confirmación antes de eliminar.  
-El botón de Edit cambia y rellena el formulario para poder editarlo rápidamente.
+The View button shows the Task in full size with all the data without any truncation. The Delete button asks for confirmation before deleting.  
+The Edit button changes and fills the form to quickly edit the task.
 
 ![edit](resources/img/edit.PNG)  
 
-Los contadores superiores funcionan como botones interactivos para filtrar por Status.  
-El widget de búsqueda muestra un listado filtrado con Title y Deadline que permite abrir la Task seleccionada.
+The upper counters work as interactive buttons to filter by Status.  
+The search widget shows a filtered list with Title and Deadline, allowing the user to open the selected Task.
 
 ![filters](resources/img/filters.PNG)  
 
-Al crear/editar/eliminar se muestra un Flash Message junto al Form
+When creating/editing/deleting, a Flash Message is shown next to the Form.
 
 ![messages](resources/img/messages.PNG) 
 
 ## Show Page
 
-Al ver una Task completa se muestra la misma Card de la Task encima de la información completa sin recortes.  
-Además, el Form se reutiliza cambiando los valores necesarios para que solo sirva para editar.  
-Los botones de Status y Delete siguen funcionando y aparece un nuevo botón Back.
+When viewing a Task in full, the same Task Card is shown above the full details without truncation.  
+Additionally, the Form is reused, changing the necessary values so that it only serves for editing.  
+The Status and Delete buttons continue to work, and a new Back button appears.
 
 ![task](resources/img/task.PNG)
